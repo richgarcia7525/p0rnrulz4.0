@@ -1,24 +1,70 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <title>Video Listings</title>
+    <title>Video List</title>
+    <script>
+        async function loadVideos() {
+            try {
+                const response = await fetch('/videos');
+                const videos = await response.json();
+
+                let container = document.getElementById('videos-container');
+                container.innerHTML = '';
+
+                videos.forEach(video => {
+                    let videoElement = `
+                        <div class="video-item">
+                            <h3>${video.Title}</h3>
+                            <p>Duration: ${video.Duration} sec</p>
+                            <img src="${video.Thumbnail}" alt="Thumbnail">
+                            <div class="video-embed">${video.Embed}</div>
+                            <p>Tags: ${video.Tags}</p>
+                        </div>
+                    `;
+                    container.innerHTML += videoElement;
+                });
+            } catch (error) {
+                console.error("Error loading videos:", error);
+            }
+        }
+
+        window.onload = loadVideos;
+    </script>
+    <style>
+        /* Basic styling for better visualization */
+        .video-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            max-width: 600px;
+        }
+
+        .video-embed iframe {
+            width: 100%;
+            height: 315px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Video Listings</h1>
-    <div class="videos">
-        {% for video in videos %}
-        <div class="video-card">
-            <img src="{{ video.thumbnail }}" alt="{{ video.title }}">
-            <h2>{{ video.title }}</h2>
-            <a href="{{ video.video_page_url }}" target="_blank">Watch Video</a>
-        </div>
-        {% endfor %}
-    </div>
+    <h1>Video List</h1>
+    <div id="videos-container"></div>
 </body>
 </html>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
 
 
 

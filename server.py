@@ -1,25 +1,32 @@
-from flask import Flask, render_template
-import json
+from flask import Flask, jsonify, render_template
+import pandas as pd
 
 app = Flask(__name__)
 
-def load_videos():
-    # Make sure the file path and JSON structure are correct
-    with open('videos.json', encoding='utf-8') as f:
-        return json.load(f)
+# Load the cleaned data
+df = pd.read_csv('data/cleaned_xvideos_data.csv')
+
+
 
 @app.route('/')
 def index():
-    # Load the videos before passing to the template
-    try:
-        videos = load_videos()
-    except FileNotFoundError:
-        videos = []
+    return render_template('index.html')
 
-    return render_template('index.html', videos=videos)
+@app.route('/videos')
+def get_videos():
+    # Limit the number of videos returned, for example, to 20
+    videos_data = df.head(20).to_dict(orient='records')
+    return jsonify(videos_data)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
+
+
+
+
+
+
+
 
 
 
