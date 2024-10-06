@@ -1,0 +1,575 @@
+/* General Body and Settings */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background: #0f0f0f;
+    color: white;
+    background: var(--clr-bg); /* Use the variable */
+    font-family: 'Montserrat', sans-serif; /* Default readable font */
+}
+    :root {
+        --clr-neon: #39FF14; /* Adjusted to your site's neon green */
+        --clr-bg: #333333;   /* Adjusted to your site's dark grey background */
+    }
+    
+  .neon-button {
+    font-size: 1.5rem; /* Adjusted to better fit your site's design */
+  
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--clr-neon);
+    border: var(--clr-neon) 0.125em solid;
+    padding: 0.5em 1.5em; /* Adjusted padding */
+    border-radius: 0.25em;
+  
+    text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+  
+    box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
+  
+    position: relative;
+    transition: color 200ms ease-in-out;
+  }
+  
+  .neon-button::before {
+    pointer-events: none;
+    content: "";
+    position: absolute;
+    background: var(--clr-neon);
+    top: 120%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  
+    transform: perspective(1em) rotateX(40deg) scale(1, 0.35);
+    filter: blur(1em);
+    opacity: 0.7;
+  }
+  
+  .neon-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 0 2em 0.5em var(--clr-neon);
+    opacity: 0;
+    background-color: var(--clr-neon);
+    z-index: -1;
+    transition: opacity 100ms linear;
+  }
+  
+  .neon-button:hover,
+  .neon-button:focus {
+    color: var(--clr-bg);
+    text-shadow: none;
+  }
+  
+  .neon-button:hover::before,
+  .neon-button:focus::before {
+    opacity: 1;
+  }
+  
+  .neon-button:hover::after,
+  .neon-button:focus::after {
+    opacity: 1;
+  }
+  
+
+.neon-wall {
+    background-image: url('../images/brick-wall.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 50px;
+    position: relative;
+  }
+
+  .neon-image:nth-child(1) {
+    top: 100px;
+    left: 50px;
+  }
+  
+  .neon-image:nth-child(2) {
+    top: 200px;
+    right: 100px;
+  }
+  
+  .neon-image:hover {
+    transform: perspective(500px) translateZ(30px) rotateX(0deg) rotateY(0deg);
+    box-shadow: 0 0 40px #39ff14, 0 0 80px #39ff14, 0 0 100px #39ff14; /* Stronger glow on hover */
+  }
+  
+  
+  .neon-image {
+    position: absolute; /* Allows free positioning on the wall */
+    width: 150px; /* Adjust as needed */
+    transition: transform 0.3s, box-shadow 0.3s; /* Adds hover animation */
+    box-shadow: 0 0 20px #39ff14, 0 0 40px #39ff14, 0 0 60px #39ff14; /* Neon glow */
+    transform: perspective(500px) translateZ(10px) rotateX(10deg); /* 3D Effect */
+  }
+  
+.brick-background {
+    background-image: url('../images/brick-wall.jpg'); /* Update the path based on the location of your image */
+    background-size: cover; /* Ensure the background covers the full container */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keep the background fixed when scrolling */
+    background-position: center;
+    padding: 20px; /* Adjust padding as needed to create spacing from the hero section */
+}
+
+@font-face {
+    font-family: 'SpecialElite';
+    src: url('../fonts/SpecialElite.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'GraffitiCity';
+    src: url('../fonts/GraffitiCity.otf') format('opentype');
+}
+
+
+
+/* Age Verification Page Styles */
+.age-verification-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: block;
+    cursor: pointer;
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.hamburger .line {
+    width: 30px;
+    height: 3px;
+    background: #fff;
+    margin: 5px;
+    transition: all 0.4s ease;
+}
+
+.hamburger.active .line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active .line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active .line:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.nav-links {
+    display: none;
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 999;
+}
+
+.nav-links.active {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 1.2rem;
+    transition: background 0.3s ease;
+}
+
+.nav-links a:hover {
+    background-color: #ff0054;
+}
+
+/* Hamburger Spin-out Animation */
+@keyframes spin-out {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Search Bar */
+.search-container {
+    position: fixed;
+    top: 80px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 500;
+}
+
+#search-bar {
+    width: 300px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    outline: none;
+    transition: border 0.3s ease;
+}
+
+#search-bar:focus {
+    border: 1px solid #ff0054;
+}
+
+.search-btn {
+    background-color: #ff0054;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+    background-color: #ff3370;
+}
+
+
+/* Flickering Title for p0rnrulz */
+.site-title {
+    font-family: 'GraffitiCity', sans-serif; /* Graffiti-style font */
+    font-size: 7rem; /* Large font size for emphasis */
+    color: #ff0054; /* Neon pink */
+    text-align: center; /* Centered horizontally */
+    text-transform: uppercase;
+    letter-spacing: 0.2em; /* Adds some spacing between letters for readability */
+    margin: 0;
+    text-shadow: 0 0 30px #ff0054, 0 0 50px rgba(255, 0, 84, 0.7); /* Neon glow */
+    position: relative;
+    z-index: 2; /* Keep above the background */
+}
+.site-title span {
+    font-family: 'GraffitiCity', sans-serif;
+    font-size: 7.5rem;  /* Size for non-flickering letters */
+    color: #ff0054;   /* Pink for 'p', 'rnrulz' */
+    letter-spacing: 0.5rem;
+    text-shadow: 0 0 30px rgba(255, 0, 84, 1);
+}
+
+/* Special Style for the "0" in 'p0rnrulz' */
+.site-title .flicker {
+    font-family: 'GraffitiCity', sans-serif;
+    font-size: 7.5rem; /* Slightly larger for emphasis */
+    color: #ffea00;  /* Bright yellow to match the word 'Zero' */
+    text-shadow: 0 0 30px #ffea00, 0 0 50px rgba(255, 255, 0, 1);
+    animation: neon-flicker 1.5s infinite;  /* Flickering effect */
+}
+
+/* Tagline Style */
+.tagline {
+    font-family: 'SpecialElite', sans-serif;
+    font-size: 2.3rem;
+    color: #00ff00;  /* Neon green for the rest of the tagline */
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+    position: relative;
+    top: -50px;  /* Adjust to align with p0rnrulz */
+    text-align: center;
+}
+
+/* Highlight the word 'Zero' in the tagline */
+.tagline span.zero {
+    color: #ffea00;  /* Neon yellow for the word Zero */
+    text-shadow: 0 0 30px #ffea00, 0 0 50px rgba(255, 255, 0, 1); /* Neon yellow glow */
+    font-family: 'GraffitiCity', sans-serif;  /* Graffiti-style font */
+    animation: neon-flicker 3.5s infinite;  /* Flicker effect for Zero */
+    font-size: 5rem;
+}
+
+/* Keyframes for Flicker Effect */
+@keyframes neon-flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+    }
+    20%, 24%, 55% {
+        opacity: 0.8;
+    }
+    22%, 26% {
+        opacity: 0.4;
+    }
+}
+
+/* Neon Buttons styled to match the hero section */
+.neon-button {
+    font-family: 'SpecialElite', sans-serif;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px 35px;
+    border-radius: 8px;
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(255, 0, 84, 0.7), 0 0 40px rgba(255, 0, 84, 0.5), 0 0 60px rgba(255, 0, 84, 0.3);
+    transition: 0.4s ease;
+    cursor: pointer;
+}
+
+.neon-button:hover {
+    background: #ff0054;
+    box-shadow: 0 0 30px rgba(255, 0, 84, 1), 0 0 60px rgba(255, 0, 84, 0.9), 0 0 90px rgba(255, 0, 84, 0.8);
+}
+
+/* Comet Trail */
+.comet-trail {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: #0f0; /* Bright neon green */
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.8), 0 0 30px rgba(0, 255, 0, 0.6), 0 0 45px rgba(0, 255, 0, 0.4); /* Neon Green Glow */
+    pointer-events: none;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease-out, transform 0.5s ease-out;
+}
+
+.comet-trail.active {
+    opacity: 1;
+}
+
+.comet-trail.fade {
+    opacity: 0;
+    transform: scale(0.5); /* Shrink as it fades */
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    width: 100vw;
+    background: url('/static/images/graffiti.jpg') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-overlay {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    z-index: 2;
+}
+
+/* Hero Section Title */
+.hero h1 {
+    font-family: 'GraffitiCity', sans-serif;
+    font-size: 6.5rem; /* Large title */
+    color: #ff0054; /* Neon pink for 'p', 'rnrulz' */
+    text-shadow: 0 0 30px #ff0054, 0 0 50px rgba(255, 0, 84, 1);
+    letter-spacing: 0.2rem; /* Spacing adjustment */
+    line-height: 1.1;
+}
+
+/* Hero Buttons */
+.hero-btn {
+    font-family: 'SpecialElite', sans-serif;
+    font-size: 1.2rem;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px 35px;
+    border-radius: 8px;
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin: 0 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(255, 0, 84, 0.7), 0 0 40px rgba(255, 0, 84, 0.5), 0 0 60px rgba(255, 0, 84, 0.3);
+    transition: 0.4s ease;
+}
+
+.hero-btn:hover {
+    background: #ff0054;
+    box-shadow: 0 0 40px rgba(255, 0, 84, 1), 0 0 70px rgba(255, 0, 84, 1);
+}
+
+/* Section Separator */
+.section-separator {
+    height: 4px;
+    background-color: #ffea00; /* Neon yellow */
+    box-shadow: 0 0 10px rgba(255, 234, 0, 0.7);
+    margin: 30px 0;
+    animation: neon-flicker 3s infinite alternate;
+}
+
+/* Video Section Styles */
+
+.video-row {
+    display: flex;
+    gap: 20px; /* Space between video cards */
+    overflow-x: auto; /* Horizontal scroll if needed */
+    padding: 10px 0;
+}
+
+.video-section {
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.video-card {
+    flex: 0 0 calc(25% - 20px); /* 4 items per row, with some space in between */
+    background: #111; /* Adjust to your liking */
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.video-card video {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.view-more-btn {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #39FF14;
+    color: #000;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.view-more-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #39FF14; /* Neon green */
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.view-more-btn:hover {
+    background-color: #28cc10; /* Darker shade on hover */
+}
+
+
+
+.video-card.hover-effect {
+    transform: scale(1.05); /* Slight zoom effect */
+    filter: brightness(1.2);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+video {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+    background-color: black;
+}
+
+/* Section Title Styling */
+h2.section-title {
+    font-family: 'GraffitiCity', sans-serif; /* Section titles with graffiti font */
+    font-size: 2.5rem;
+    text-align: center;
+    color: #ff0054; /* Neon pink color */
+    text-transform: uppercase;
+    text-shadow: 0px 0px 20px rgba(255, 0, 84, 0.7); /* Neon effect */
+    margin-bottom: 40px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ffea00; /* Glowing yellow border */
+}
+
+.neon-but {
+    font-size: 4rem;
+
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--clr-neon);
+    border: var(--clr-neon) 0.125em solid;
+    padding: 0.25 1em;
+    border-radius: 0.25em;
+
+    text-shadow: 0 0 0.125em hsl(0, 0%  100% / 0.3), 0 0 
+    0.45em currentColor;
+
+    box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 
+    0 var(--clr-neon);
+
+    position: relative;
+}
+
+.neon-but::before {
+    pointer-events: none;
+    content: '';
+    position: absolute;
+    background: var(--clr-neon);
+    top: 120%;
+    left:0;
+    bottom:0;
+    width: 100;
+    height: 100;
+
+    transform: perspective(1em) rotateX(40deg) scale(1,
+     0.35);
+    filter: blur(1em);
+    opacity: 0.7;
+}
+
+.neon-but::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 0 2em 0.5em var
+(--clr-neon);
+    opacity: 0;
+    background-color: var(--clr-neon);
+    z-index: -1;
+    transition: opacity 100ms linear;
+}
+
+.neon-but:hover,
+.neon-but:focus  {
+    color: var(--clr-bg);
+    text-shadow: none;
+}
+
+
+.neon-but:hover::before, 
+.neon-but:focus::before {
+    opacity: 1;
+}
+.neon-but:hover::after,
+.neon-but:focus::after {
+    opacity: 1;
+}

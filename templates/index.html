@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Welcome to p0rnrulz</title>
     <script>
+        // JavaScript to dynamically load videos
         async function loadVideos() {
             try {
                 const response = await fetch('/videos');
@@ -47,11 +50,89 @@
         }
     </style>
 </head>
+
 <body>
-    <h1>Video List</h1>
+    <!-- Site Title -->
+    <h1 class="site-title">Welcome to p0rnrulz</h1>
+    <h1 class="site-title">
+        <span class="p">p</span><span class="flicker">0</span>rnrulz
+    </h1>
+
+    <!-- Updated Navigation Links -->
+<nav class="navbar">
+    <ul class="nav-links">
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('straight_videos') }}">Straight Videos</a></li>
+        <li><a href="{{ url_for('gay_videos') }}">Gay Videos</a></li>
+        <li><a href="{{ url_for('trans_videos') }}">Trans Videos</a></li>
+    </ul>
+</nav>
+
+
+    <!-- Static Video Sections -->
+    <!-- Trending Videos Section -->
+    <h2 class="section-title">Trending Videos</h2>
+    <div class="video-section">
+        {% for video in trending_videos %}
+        <div class="video-card">
+            <video controls>
+                <source src="{{ video.content_url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <h3>{{ video.title }}</h3>
+            <p>Author: {{ video.author }}</p>
+            <p>Views: {{ video.views }}</p>
+        </div>
+        {% endfor %}
+        <a href="{{ url_for('trending_videos') }}" class="view-more-btn">View More</a>
+    </div>
+
+    <!-- Newest Videos Section -->
+    <h2 class="section-title">Newest Videos</h2>
+    <div class="video-section">
+        {% for video in newest_videos %}
+        <div class="video-card">
+            <video controls>
+                <source src="{{ video.content_url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <h3>{{ video.title }}</h3>
+            <p>Author: {{ video.author }}</p>
+            <p>Views: {{ video.views }}</p>
+        </div>
+        {% endfor %}
+        <a href="{{ url_for('newest_videos') }}" class="view-more-btn">View More</a>
+    </div>
+
+    <!-- Most Viewed Videos Section -->
+    <h2 class="section-title">Most Viewed Videos</h2>
+    <div class="video-section">
+        {% for video in most_viewed_videos %}
+        <div class="video-card">
+            <video controls>
+                <source src="{{ video.content_url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <h3>{{ video.title }}</h3>
+            <p>Author: {{ video.author }}</p>
+            <p>Views: {{ video.views }}</p>
+        </div>
+        {% endfor %}
+        <a href="{{ url_for('most_viewed_videos') }}" class="view-more-btn">View More</a>
+    </div>
+
+    <!-- Dynamic Video Section Loaded with JavaScript -->
+    <h2 class="section-title">All Videos (Loaded Dynamically)</h2>
     <div id="videos-container"></div>
+
+    <!-- Link to JavaScript files -->
+    <script src="{{ url_for('static', filename='js/comet.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/menuToggle.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
 </body>
+
 </html>
+
 
 
 
