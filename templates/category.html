@@ -1,23 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <title>{{ category_name }}</title>
-</head>
-<body>
-    <h1>{{ category_name }}</h1>
-    <div class="video-section">
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="hero">
+        <div class="hero-overlay">
+            <h1 class="site-title">{{ category_name }} Videos - {{ section|capitalize }}</h1>
+        </div>
+    </div>
+    <div class="comet-trail"></div>
+
+    <section class="video-section">
+        <h2 class="section-title">{{ category_name }} - {{ section|capitalize }}</h2>
         {% for video in videos %}
-        <div class="video-item">
-            <h3>{{ video.Title }}</h3>
-            <p>Duration: {{ video.Duration }} sec</p>
-            <img src="{{ video.Thumbnail }}" alt="Thumbnail">
-            <div class="video-embed">{{ video.Embed | safe }}</div>
-            <p>Tags: {{ video.Tags }}</p>
+        <div class="video-card">
+            <img class="video-thumbnail" src="{{ video.Thumbnail }}" alt="Video Thumbnail">
+            <div class="video-embed">
+                {{ video.Embed | safe }}
+            </div>
+ 
+
+            <div class="video-info">
+                <h3>{{ video.Title }}</h3>
+                
+                <p>Duration: {{ video.Duration }} sec</p>
+                
+            </div>
         </div>
         {% endfor %}
-    </div>
-</body>
-</html>
+    </section>
+{% endblock %}
+
+
+
+
+

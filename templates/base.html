@@ -1,0 +1,54 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P0rnrulz Videos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/menuToggle.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/comet.js') }}"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+         <!-- Hamburger Icon -->
+        <div id="hamburger" class="hamburger">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </div>
+      
+        <nav class="navbar">
+            <ul id="nav-links" class="nav-links">
+                <li><a href="{{ url_for('category_page', category_name='straight', section='newest', page=1) }}">Straight Videos</a></li>
+                <li><a href="{{ url_for('category_page', category_name='gay', section='newest', page=1) }}">Gay Videos</a></li>
+                <li><a href="{{ url_for('category_page', category_name='trans', section='newest', page=1) }}">Trans Videos</a></li>
+                <li><a href="{{ url_for('category_page', category_name='newest', section='newest', page=1) }}">Newest Videos</a></li>
+                <li><a href="{{ url_for('category_page', category_name='most_popular', section='newest', page=1) }}">Most Popular</a></li>
+                <li><a href="{{ url_for('category_page', category_name='most_viewed', section='newest', page=1) }}">Most Viewed</a></li>
+                <li><a href="{{ url_for('category_page', category_name='trending', section='newest', page=1) }}">Trending</a></li>
+
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <div class="comet-trail"></div>
+
+    <script src="{{ url_for('static', filename='js/comet.js') }}"></script>
+
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>© 2024 P0rnrulz. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
+
+
+
+

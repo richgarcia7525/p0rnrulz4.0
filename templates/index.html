@@ -1,137 +1,188 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <title>Welcome to p0rnrulz</title>
-    <script>
-        // JavaScript to dynamically load videos
-        async function loadVideos() {
-            try {
-                const response = await fetch('/videos');
-                const videos = await response.json();
-
-                let container = document.getElementById('videos-container');
-                container.innerHTML = '';
-
-                videos.forEach(video => {
-                    let videoElement = `
-                        <div class="video-item">
-                            <h3>${video.Title}</h3>
-                            <p>Duration: ${video.Duration} sec</p>
-                            <img src="${video.Thumbnail}" alt="Thumbnail">
-                            <div class="video-embed">${video.Embed}</div>
-                            <p>Tags: ${video.Tags}</p>
-                        </div>
-                    `;
-                    container.innerHTML += videoElement;
-                });
-            } catch (error) {
-                console.error("Error loading videos:", error);
-            }
-        }
-
-        window.onload = loadVideos;
-    </script>
-    <style>
-        /* Basic styling for better visualization */
-        .video-item {
-            margin-bottom: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            max-width: 600px;
-        }
-
-        .video-embed iframe {
-            width: 100%;
-            height: 315px;
-        }
-    </style>
-</head>
-
-<body>
-    <!-- Site Title -->
-    <h1 class="site-title">Welcome to p0rnrulz</h1>
-    <h1 class="site-title">
-        <span class="p">p</span><span class="flicker">0</span>rnrulz
-    </h1>
-
-    <!-- Updated Navigation Links -->
-<nav class="navbar">
-    <ul class="nav-links">
-        <li><a href="{{ url_for('index') }}">Home</a></li>
-        <li><a href="{{ url_for('straight_videos') }}">Straight Videos</a></li>
-        <li><a href="{{ url_for('gay_videos') }}">Gay Videos</a></li>
-        <li><a href="{{ url_for('trans_videos') }}">Trans Videos</a></li>
-    </ul>
-</nav>
-
-
-    <!-- Static Video Sections -->
-    <!-- Trending Videos Section -->
-    <h2 class="section-title">Trending Videos</h2>
-    <div class="video-section">
-        {% for video in trending_videos %}
-        <div class="video-card">
-            <video controls>
-                <source src="{{ video.content_url }}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <h3>{{ video.title }}</h3>
-            <p>Author: {{ video.author }}</p>
-            <p>Views: {{ video.views }}</p>
+{% block content %}
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-overlay">
+            <h1 class="site-title">
+                <span class="p">p</span><span class="flicker">0</span>rnrulz
+            </h1>
+            <h2 class="tagline">
+                <span class="zero">Zero</span> F$@#'s Given
+            </h2>
+            <div class="hero-buttons">
+                <a href="#" class="hero-button">Sign Up</a>
+                <a href="#" class="hero-button">Log In</a>
+            </div>
         </div>
-        {% endfor %}
-        <a href="{{ url_for('trending_videos') }}" class="view-more-btn">View More</a>
     </div>
+
+    <!-- Trending Videos Section -->
+    <section class="video-section" id="trending">
+        <h2 class="section-title">Trending Videos</h2>
+        <div class="videos-container">
+            {% for video in trending_videos %}
+            <div class="video-card">
+                <!-- Video Thumbnail -->
+                <img class="video-thumbnail" src="{{ video.Thumbnail }}" alt="Video Thumbnail">
+                
+                <!-- Hidden video preview for hover -->
+                <video class="video-preview" muted>
+                    <source src="{{ video.Embed | safe }}" type="video/mp4">
+                </video>
+
+                <!-- Modal for full video -->
+                <div id="videoModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <video id="modal-video" controls></video>
+                    </div>
+                </div>
+
+                <!-- Video Information -->
+                <div class="video-info">
+                    <h3>{{ video.Title }}</h3>
+                    <p>Actors: {{ video.Actors }}</p>
+                    <p>Duration: {{ video.Duration }} sec</p>
+                    <p>Tags: {{ video.Tags }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
 
     <!-- Newest Videos Section -->
-    <h2 class="section-title">Newest Videos</h2>
-    <div class="video-section">
-        {% for video in newest_videos %}
-        <div class="video-card">
-            <video controls>
-                <source src="{{ video.content_url }}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <h3>{{ video.title }}</h3>
-            <p>Author: {{ video.author }}</p>
-            <p>Views: {{ video.views }}</p>
+    <section class="video-section" id="newest">
+        <h2 class="section-title">Newest Videos</h2>
+        <div class="videos-container">
+            {% for video in newest_videos %}
+            <div class="video-card">
+                <img class="video-thumbnail" src="{{ video.Thumbnail }}" alt="Video Thumbnail">
+                <video class="video-preview" muted>
+                    <source src="{{ video.Embed | safe }}" type="video/mp4">
+                </video>
+                <div class="video-info">
+                    <h3>{{ video.Title }}</h3>
+                    <p>Actors: {{ video.Actors }}</p>
+                    <p>Duration: {{ video.Duration }} sec</p>
+                    <p>Tags: {{ video.Tags }}</p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-        <a href="{{ url_for('newest_videos') }}" class="view-more-btn">View More</a>
-    </div>
+    </section>
+
+    <!-- Most Popular Videos Section -->
+    <section class="video-section" id="most-popular">
+        <h2 class="section-title">Most Popular Videos</h2>
+        <div class="videos-container">
+            {% for video in most_popular_videos %}
+            <div class="video-card">
+                <img class="video-thumbnail" src="{{ video.Thumbnail }}" alt="Video Thumbnail">
+                <video class="video-preview" muted>
+                    <source src="{{ video.Embed | safe }}" type="video/mp4">
+                </video>
+                <div class="video-info">
+                    <h3>{{ video.Title }}</h3>
+                    <p>Actors: {{ video.Actors }}</p>
+                    <p>Duration: {{ video.Duration }} sec</p>
+                    <p>Tags: {{ video.Tags }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
 
     <!-- Most Viewed Videos Section -->
-    <h2 class="section-title">Most Viewed Videos</h2>
-    <div class="video-section">
-        {% for video in most_viewed_videos %}
-        <div class="video-card">
-            <video controls>
-                <source src="{{ video.content_url }}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <h3>{{ video.title }}</h3>
-            <p>Author: {{ video.author }}</p>
-            <p>Views: {{ video.views }}</p>
+    <section class="video-section" id="most-viewed">
+        <h2 class="section-title">Most Viewed Videos</h2>
+        <div class="videos-container">
+            {% for video in most_viewed_videos %}
+            <div class="video-card">
+                <img class="video-thumbnail" src="{{ video.Thumbnail }}" alt="Video Thumbnail">
+                <video class="video-preview" muted>
+                    <source src="{{ video.Embed | safe }}" type="video/mp4">
+                </video>
+                <div class="video-info">
+                    <h3>{{ video.Title }}</h3>
+                    <p>Actors: {{ video.Actors }}</p>
+                    <p>Duration: {{ video.Duration }} sec</p>
+                    <p>Tags: {{ video.Tags }}</p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-        <a href="{{ url_for('most_viewed_videos') }}" class="view-more-btn">View More</a>
-    </div>
+    </section>
 
-    <!-- Dynamic Video Section Loaded with JavaScript -->
-    <h2 class="section-title">All Videos (Loaded Dynamically)</h2>
-    <div id="videos-container"></div>
+    <!-- Straight Videos Section -->
+    <section class="video-section" id="straight">
+        <h2 class="section-title">Straight Videos</h2>
+        <div class="videos-container">
+            {% for video in straight_videos %}
+            <div class="video-card">
+                <img class="video-thumbnail" src="{{ video.Thumbnail }}" alt="Video Thumbnail">
+                <video class="video-preview" muted>
+                    <source src="{{ video.Embed | safe }}" type="video/mp4">
+                </video>
+                <div class="video-info">
+                    <h3>{{ video.Title }}</h3>
+                    <p>Actors: {{ video.Actors }}</p>
+                    <p>Duration: {{ video.Duration }} sec</p>
+                    <p>Tags: {{ video.Tags }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
 
-    <!-- Link to JavaScript files -->
-    <script src="{{ url_for('static', filename='js/comet.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/menuToggle.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
-</body>
+    <!-- Gay Videos Section -->
+    <section class="video-section" id="gay">
+        <h2 class="section-title">Gay Videos</h2>
+        <div class="videos-container">
+            {% for video in gay_videos %}
+            <div class="video-card">
+                <img class="video-thumbnail" src="{{ video.Thumbnail }}" alt="Video Thumbnail">
+                <video class="video-preview" muted>
+                    <source src="{{ video.Embed | safe }}" type="video/mp4">
+                </video>
+                <div class="video-info">
+                    <h3>{{ video.Title }}</h3>
+                    <p>Actors: {{ video.Actors }}</p>
+                    <p>Duration: {{ video.Duration }} sec</p>
+                    <p>Tags: {{ video.Tags }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
 
-</html>
+    <!-- Trans Videos Section -->
+    <section class="video-section" id="trans">
+        <h2 class="section-title">Trans Videos</h2>
+        <div class="videos-container">
+            {% for video in trans_videos %}
+            <div class="video-card">
+                <img class="video-thumbnail" src="{{ video.Thumbnail }}" alt="Video Thumbnail">
+                <video class="video-preview" muted>
+                    <source src="{{ video.Embed | safe }}" type="video/mp4">
+                </video>
+                <div class="video-info">
+                    <h3>{{ video.Title }}</h3>
+                    <p>Actors: {{ video.Actors }}</p>
+                    <p>Duration: {{ video.Duration }} sec</p>
+                    <p>Tags: {{ video.Tags }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
+
+
+
+
+
+
 
 
 

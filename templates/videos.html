@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <h1>{{ category_name }} - {{ section.title() }}</h1>
+    </div>
+
+    <!-- Video Section -->
+    <div class="video-section">
+        {% for video in videos %}
+        <div class="video-card">
+            <img src="{{ video.Thumbnail }}" alt="{{ video.Title }}">
+            <h3>{{ video.Title }}</h3>
+            <div class="video-embed">
+                {{ video.Embed | safe }}
+            </div>
+            <p>Actors: {{ video.Actors }}</p>
+            <p>Duration: {{ video.Duration }} sec</p>
+            <p>Tags: {{ video.Tags }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="comet-trail"></div>
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        {% if page > 1 %}
+            <a href="{{ url_for('category_page', category_name=category_name.lower(), section=section, page=page-1) }}">Previous</a>
+        {% endif %}
+        {% for p in range(1, total_pages + 1) %}
+            <a href="{{ url_for('category_page', category_name=category_name.lower(), section=section, page=p) }}" {% if p == page %}class="active"{% endif %}>{{ p }}</a>
+        {% endfor %}
+        {% if page < total_pages %}
+            <a href="{{ url_for('category_page', category_name=category_name.lower(), section=section, page=page+1) }}">Next</a>
+        {% endif %}
+    </div>
+{% endblock %}
